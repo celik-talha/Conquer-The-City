@@ -43,7 +43,7 @@ public class TouchActions : MonoBehaviour
     Vector3 startPos;
     Vector3 touchDir;
     bool isConnected = false;
-    bool isConnecting = false;
+    public bool isConnecting = false;
 
     Vector3 poolPos;
     public GameObject pool;
@@ -54,6 +54,9 @@ public class TouchActions : MonoBehaviour
 
     bool isCreated = false;
 
+    GameObject prevPath;
+    int i;
+
     private void Start()
     {
         rayLayer= LayerMask.GetMask("LayerMask");
@@ -61,6 +64,8 @@ public class TouchActions : MonoBehaviour
         poolPos = pool.transform.position;
 
         pathPrefab = Resources.Load<GameObject>("Path");
+
+        i = 0;
     }
 
     private void Update()
@@ -124,7 +129,7 @@ public class TouchActions : MonoBehaviour
                     if (Physics.Raycast(raycast, out raycastHit, Mathf.Infinity, pathLayer))
                     {
                         deletePath(raycastHit.transform);
-                        //Debug.Log("b");
+                        Debug.Log("b");
                     }
 
                 }
@@ -133,9 +138,19 @@ public class TouchActions : MonoBehaviour
 
             if (Input.GetTouch(0).phase==TouchPhase.Ended)
             {
-                if (isConnecting)
+                if (!isConnected)
                 {
-                    deletePath(lastPath.transform);
+                    if (lastPath!=null)
+                    {
+                        deletePath(lastPath.transform);
+                    }
+                }
+                else
+                {
+                    if (path!=null)
+                    {
+                        path.GetComponent<PathScript>().checkBug();
+                    }
                 }
             }
 
@@ -210,8 +225,17 @@ public class TouchActions : MonoBehaviour
 
     void createPath()
     {
+
+        if (i > 0 && path != null)
+        {
+            prevPath = path;
+            prevPath.GetComponent<PathScript>().checkBug();
+        }
+        
+
         path = Instantiate(pathPrefab);
         isCreated = true;
+        i++;
 
     }
 
@@ -236,7 +260,7 @@ public class TouchActions : MonoBehaviour
         path.transform.localScale = scale;
 
         lastPath = path;
-        if (isTower==true && to!=focusedObject)
+        if (isTower==true && to!=focusedObject && to!= null)
         {
             path.transform.SetParent(paths.transform);
             isConnected = true;
@@ -256,6 +280,7 @@ public class TouchActions : MonoBehaviour
         {
             isConnecting = true;
             isConnected = false;
+            path.GetComponent<PathScript>().isConnected = false;
         }
     }
 
@@ -264,5 +289,6 @@ public class TouchActions : MonoBehaviour
         Destroy(deleteTransform.gameObject);
         isConnecting = false;
         isConnected = false;
+        Debug.Log("deleted");
     }
 }

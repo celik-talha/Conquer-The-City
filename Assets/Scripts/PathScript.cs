@@ -19,28 +19,45 @@ public class PathScript : MonoBehaviour
     {
         if (isConnected)
         {
-            if (from==to)
-            {
-                Debug.Log("delete");
-            }
-            if (from == null || to == null)
-            {
-                Debug.Log("Delete");
-            }
+            //checkBug();
         }
 
         if (Input.touchCount==0 && isConnected==false)
         {
-            touchScript.deletePath(this.transform);
+            cancelPath();
         }
+        //Debug.Log();
     }
 
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (isConnected = true && other.gameObject.name != "Floor")
+        {
+            if (other.gameObject != from && other.gameObject != to)
+            {
+                //Debug.Log(other.name);
+            }
+        }
+    }
 
     public void checkBug()
     {
         if (to==from)
         {
-            touchScript.deletePath(this.transform);
+            Debug.Log("deletss");
+            //cancelPath();
         }
+        if (from == null || to == null)
+        {
+            Debug.Log("Delete");
+            //cancelPath();
+        }
+
+    }
+
+    void cancelPath()
+    {
+        touchScript.deletePath(this.transform);
     }
 }
