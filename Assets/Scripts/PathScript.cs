@@ -10,6 +10,8 @@ public class PathScript : MonoBehaviour
 
     TouchActions touchScript;
 
+    bool letCheckCollide = false;
+
     private void Start()
     {
         touchScript= GameObject.FindGameObjectWithTag("Manager").GetComponent<TouchActions>();
@@ -32,11 +34,18 @@ public class PathScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (isConnected = true && other.gameObject.name != "Floor")
+        if (letCheckCollide)
         {
-            if (other.gameObject != from && other.gameObject != to)
+            if (isConnected = true && other.gameObject.name != "Floor")
             {
-                //Debug.Log(other.name);
+                if (other.gameObject != from && other.gameObject != to)
+                {
+                    if (other.tag=="Tower")
+                    {
+                        Debug.Log(other.name);
+                        cancelPath();
+                    }
+                }
             }
         }
     }
@@ -59,5 +68,12 @@ public class PathScript : MonoBehaviour
     void cancelPath()
     {
         touchScript.deletePath(this.transform);
+    }
+
+    public void checkCollide()
+    {
+        Debug.Log("checking");
+        letCheckCollide = true;
+
     }
 }

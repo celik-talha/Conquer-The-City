@@ -2125,6 +2125,7 @@ MonoBehaviour:
   e2s: {fileID: 35838485}
   e3s: {fileID: 1017878177}
   path1: {fileID: 422167199}
+  isConnecting: 0
   pool: {fileID: 2080722838}
   paths: {fileID: 1179239059}
 --- !u!4 &1155703914

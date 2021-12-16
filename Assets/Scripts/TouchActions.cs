@@ -152,6 +152,12 @@ public class TouchActions : MonoBehaviour
                         path.GetComponent<PathScript>().checkBug();
                     }
                 }
+
+                if (lastPath!=null)
+                {
+                    path.GetComponent<PathScript>().checkCollide();
+                }
+
             }
 
 
@@ -289,6 +295,6 @@ public class TouchActions : MonoBehaviour
         Destroy(deleteTransform.gameObject);
         isConnecting = false;
         isConnected = false;
-        Debug.Log("deleted");
+        //Debug.Log("deleted");
     }
 }
