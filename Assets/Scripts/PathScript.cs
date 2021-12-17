@@ -12,12 +12,20 @@ public class PathScript : MonoBehaviour
 
     bool letCheckCollide = false;
 
+    bool letSend = false;
+    float speed = 2f;
+    bool waiting = false;
+
+    TowerHealths towerScript;
+
     private void Start()
     {
         touchScript= GameObject.FindGameObjectWithTag("Manager").GetComponent<TouchActions>();
+        towerScript = GameObject.FindGameObjectWithTag("TManager").GetComponent<TowerHealths>();
     }
 
-    private void Update()
+
+    private void FixedUpdate()
     {
         if (isConnected)
         {
@@ -26,9 +34,15 @@ public class PathScript : MonoBehaviour
 
         if (Input.touchCount==0 && isConnected==false)
         {
-            cancelPath();
+            //cancelPath();
+            //Debug.Log("dlt4");
         }
         //Debug.Log();
+
+        if (letSend)
+        {
+            StartCoroutine(startTimer());
+        }
     }
 
 
@@ -44,6 +58,7 @@ public class PathScript : MonoBehaviour
                     {
                         Debug.Log(other.name);
                         cancelPath();
+                        Debug.Log("dlt5");
                     }
                 }
             }
@@ -62,7 +77,7 @@ public class PathScript : MonoBehaviour
             Debug.Log("Delete");
             //cancelPath();
         }
-
+        letSend = true;
     }
 
     void cancelPath()
@@ -75,5 +90,22 @@ public class PathScript : MonoBehaviour
         Debug.Log("checking");
         letCheckCollide = true;
 
+    }
+
+    IEnumerator startTimer()
+    {
+        if (!waiting)
+        {
+            waiting = true;
+            yield return new WaitForSeconds(speed);
+            sendBall();
+            waiting = false;
+        }
+    }
+
+    void sendBall()
+    {
+        Debug.Log("sending");
+        towerScript.addBall(from, to, this.gameObject);
     }
 }

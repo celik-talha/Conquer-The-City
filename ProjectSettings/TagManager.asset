@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tower
   - Manager
+  - TManager
   layers:
   - Default
   - TransparentFX

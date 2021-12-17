@@ -57,6 +57,8 @@ public class TouchActions : MonoBehaviour
     GameObject prevPath;
     int i;
 
+    TowerHealths towerScript;
+
     private void Start()
     {
         rayLayer= LayerMask.GetMask("LayerMask");
@@ -64,6 +66,7 @@ public class TouchActions : MonoBehaviour
         poolPos = pool.transform.position;
 
         pathPrefab = Resources.Load<GameObject>("Path");
+        towerScript = GameObject.FindGameObjectWithTag("TManager").GetComponent<TowerHealths>();
 
         i = 0;
     }
@@ -82,8 +85,11 @@ public class TouchActions : MonoBehaviour
                 {
                     if (raycastHit.collider.CompareTag("Tower"))
                     {
-                        focusObject(raycastHit.collider.gameObject);
-                        createPath();
+                        if (towerScript.checkIdentity(raycastHit.collider.gameObject))
+                        {
+                            focusObject(raycastHit.collider.gameObject);
+                            createPath();
+                        }
                     }
                     else
                     {
@@ -129,7 +135,7 @@ public class TouchActions : MonoBehaviour
                     if (Physics.Raycast(raycast, out raycastHit, Mathf.Infinity, pathLayer))
                     {
                         deletePath(raycastHit.transform);
-                        Debug.Log("b");
+                        Debug.Log("dlt3");
                     }
 
                 }
@@ -143,6 +149,7 @@ public class TouchActions : MonoBehaviour
                     if (lastPath!=null)
                     {
                         deletePath(lastPath.transform);
+                        Debug.Log("dlt2");
                     }
                 }
                 else
@@ -157,6 +164,8 @@ public class TouchActions : MonoBehaviour
                 {
                     path.GetComponent<PathScript>().checkCollide();
                 }
+                lastPath = null;
+                isFocused = false;
 
             }
 
@@ -232,16 +241,19 @@ public class TouchActions : MonoBehaviour
     void createPath()
     {
 
-        if (i > 0 && path != null)
+        if (true)
         {
-            prevPath = path;
-            prevPath.GetComponent<PathScript>().checkBug();
-        }
-        
+            if (i > 0 && path != null)
+            {
+                prevPath = path;
+                prevPath.GetComponent<PathScript>().checkBug();
+            }
 
-        path = Instantiate(pathPrefab);
-        isCreated = true;
-        i++;
+
+            path = Instantiate(pathPrefab);
+            isCreated = true;
+            i++;
+        }
 
     }
 
@@ -279,6 +291,7 @@ public class TouchActions : MonoBehaviour
             {
                 isCreated = false;
                 Destroy(path);
+                Debug.Log("dlt1");
             }
             
         }
