@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TowerHealths : MonoBehaviour
 {
@@ -385,10 +386,12 @@ public class TowerHealths : MonoBehaviour
     void setFriend(GameObject go)
     {
         go.GetComponent<MeshRenderer>().material = matPlayer;
+        checkEnd();
     }
     void setEnemy(GameObject go)
     {
         go.GetComponent<MeshRenderer>().material = matEnemy;
+        checkEnd();
     }
     void setFree(GameObject go)
     {
@@ -501,5 +504,18 @@ public class TowerHealths : MonoBehaviour
             return false;
         }
 
+    }
+
+    void checkEnd()
+    {
+        if (p1Owner == 1 && p2Owner == 1 && p3Owner == 1 && f1Owner == 1 && f2Owner == 1 && f3Owner == 1 && e1Owner == 1 && e2Owner == 1 && e3Owner == 1)
+        {
+            SceneManager.LoadScene("EndScene");
+            
+        }
+        else if (p1Owner == 2 && p2Owner == 2 && p3Owner == 2 && f1Owner == 2 && f2Owner == 2 && f3Owner == 2 && e1Owner == 2 && e2Owner == 2 && e3Owner == 2)
+        {
+            SceneManager.LoadScene("EndScene");
+        }
     }
 }

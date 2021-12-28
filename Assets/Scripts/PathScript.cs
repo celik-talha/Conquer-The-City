@@ -105,7 +105,7 @@ public class PathScript : MonoBehaviour
 
     void sendBall()
     {
-        Debug.Log("sending");
+        //Debug.Log("sending");
         towerScript.addBall(from, to, this.gameObject);
     }
 }
