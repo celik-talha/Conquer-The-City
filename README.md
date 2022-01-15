@@ -5,4 +5,4 @@
  
  
  Contact: talhacelik1907g@gmail.com
- Play on: talhacelik.itch.io/conquer-the-city
+ Play on: https://talhacelik.itch.io/conquer-the-city
